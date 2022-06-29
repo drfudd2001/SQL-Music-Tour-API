@@ -19,10 +19,10 @@ stages.get('/', async (req, res) => {
 })
 
 // FIND A SPECIFIC STAGE
-stages.get('/:id', async (req, res) => {
+stages.get('/:name', async (req, res) => {
     try {
         const foundStage = await Stage.findOne({
-            where: { stage_id: req.params.id }
+            where: { stage_name: req.params.name }
         })
         res.status(200).json(foundStage)
     } catch (error) {
@@ -75,5 +75,4 @@ stages.delete('/:id', async (req, res) => {
     }
 })
 
-// EXPORT
 module.exports = stages
