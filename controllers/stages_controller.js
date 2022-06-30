@@ -1,49 +1,49 @@
-// DEPENDENCIES
+//DEPENDENCIES
 const stages = require('express').Router()
 const db = require('../models')
-const { Stage } = db 
-const { Op } = require('sequelize')
+const { Stage } = db
 
-// FIND ALL STAGES
+//ROUTES
+//get all stages
 stages.get('/', async (req, res) => {
     try {
-        const foundStages = await Stage.findAll({
-            where: {
-                stage_name: { [Op.like]: `%${req.query.stage_name ? req.query.stage_name : ''}%` }
-            }
-        })
+        const foundStages = await Stage.findAll()
         res.status(200).json(foundStages)
     } catch (error) {
         res.status(500).json(error)
     }
 })
-
-// FIND A SPECIFIC STAGE
+//get one stage by id
 stages.get('/:name', async (req, res) => {
     try {
         const foundStage = await Stage.findOne({
-            where: { stage_name: req.params.name }
+            where: {name: req.params.stage},
+            include: [
+                {
+                    model: Event,
+                    as: "events"
+                }
+            ]
         })
         res.status(200).json(foundStage)
     } catch (error) {
         res.status(500).json(error)
     }
 })
-
-// CREATE A STAGE
-stages.post('/', async (req, res) => {
+//create a new stage
+stages.post('/', async (req,res) =>{
     try {
         const newStage = await Stage.create(req.body)
         res.status(200).json({
-            message: 'Successfully inserted a new stage',
+            message: 'Successfully created a new stage',
             data: newStage
         })
-    } catch(err) {
-        res.status(500).json(err)
+    } catch(error) {
+        res.status(500).json(error)
     }
+    
 })
-
-// UPDATE A STAGE
+//update a stage
 stages.put('/:id', async (req, res) => {
     try {
         const updatedStages = await Stage.update(req.body, {
@@ -52,27 +52,28 @@ stages.put('/:id', async (req, res) => {
             }
         })
         res.status(200).json({
-            message: `Successfully updated ${updatedStages} stage(s)`
+            message: `Successfully updated ${updatedStages} band(s)`
         })
     } catch(err) {
         res.status(500).json(err)
     }
 })
-
-// DELETE A STAGE
-stages.delete('/:id', async (req, res) => {
+//delete a stage
+stages.delete(':/id', async (req, res) => {
     try {
-        const deletedStages = await Stage.destroy({
+        const deletedStage = await Stage.destroy({
             where: {
                 stage_id: req.params.id
             }
         })
-        res.status(200).json({
-            message: `Successfully deleted ${deletedStages} stage(s)`
-        })
-    } catch(err) {
-        res.status(500).json(err)
+    res.status(200).json({
+        message: `Successfully deleted ${deletedStage} stage(s)`
+    })
+    } catch(error) {
+        res.status(500).json(error)
     }
 })
 
+
+//EXPORTS
 module.exports = stages

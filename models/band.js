@@ -10,16 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({ MeetGreet, SetTime }) {
-      // define association here
+      // meet and greets
       Band.hasMany(MeetGreet, {
         foreignKey: "band_id",
         as: "meet_greets"
-      });
+      })
 
+      // set times 
       Band.hasMany(SetTime, {
-        foreignKey: 'band_id',
-        as: 'set_times'
-      });
+        foreignKey: "band_id",
+        set_times: "set_times"
+      })
     }
   }
   Band.init({

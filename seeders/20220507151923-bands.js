@@ -5,8 +5,8 @@ module.exports = {
     await queryInterface.bulkInsert('bands', [{
       name: 'The Useful Books',
       genre: 'Rock',
-      available_start_time: '2022-05-07T19:00:00Z',
-      end_time: '2022-05-07T23:00:00Z'
+      available_start_time: '11:00:00',
+      end_time: '23:00:00'
     }])
   },
 

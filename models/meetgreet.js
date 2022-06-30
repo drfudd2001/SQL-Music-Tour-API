@@ -10,15 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({ Band, Event }) {
-      // define association here
+      // band
       MeetGreet.belongsTo(Band, {
         foreignKey: "band_id",
         as: "band"
-      });
+      })
 
+      // event
       MeetGreet.belongsTo(Event, {
-        foreignKey: 'event_id',
-        as: 'event'
+        foreignKey: "event_id",
+        as: "event"
       })
     }
   }
